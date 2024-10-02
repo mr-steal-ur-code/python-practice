@@ -7,8 +7,6 @@ def send_to_store(cart, aisle_mapping):
     """
     fulfillment_cart = {}
     cart_list = sorted(cart.items(), reverse=True)
-    print(f"cart items: {cart.items()}")
-    print(f"cart_list: {cart_list}")
     for item, quantity in cart_list:
         if item in aisle_mapping:
             aisle_info = aisle_mapping[item]
@@ -17,5 +15,11 @@ def send_to_store(cart, aisle_mapping):
     return fulfillment_cart
 
 
-print(send_to_store({'Banana': 3, 'Apple': 2, 'Orange': 1, 'Milk': 2},
-                    {'Banana': ['Aisle 5', False], 'Apple': ['Aisle 4', False], 'Orange': ['Aisle 4', False], 'Milk': ['Aisle 2', True]}))
+cart = {'Banana': 3, 'Apple': 2, 'Orange': 1, 'Milk': 2}
+details = {
+    'Banana': ['Aisle 5', False],
+    'Apple': ['Aisle 4', False],
+    'Orange': ['Aisle 4', False],
+    'Milk': ['Aisle 2', True]
+}
+print(send_to_store(cart, details))
