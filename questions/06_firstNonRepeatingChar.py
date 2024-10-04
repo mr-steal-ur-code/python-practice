@@ -8,11 +8,6 @@
 
 def first_non_repeating_char(text):
 
-    # Count occurrences of each character
-
-    # Find the first character with a count of 1
-
-    # If no non-repeating character is found
 
 
 print(first_non_repeating_char("swiss"))   # "w"
