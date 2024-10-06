@@ -1,3 +1,4 @@
+import os
 import sys
 from colorama import Fore, init
 import random
@@ -23,9 +24,12 @@ def reset_game():
 
 
 def check_guess(str: str):
-    if len(str) != 1:
-        return print(Fore.RED + "😅 Please enter one letter at a time to continue your quest.")
     global guessed, stage, playing, random_word, won
+    clear_terminal()
+    if str == "6666":
+        return print(Fore.LIGHTCYAN_EX + f"*** {random_word} ***")
+    if len(str) != 1:
+        return print(Fore.RED + "😅 Input Error: Please enter a letter to continue your quest.")
     match_found = False
     guess = str.lower()
     if guess in guessed:
@@ -41,14 +45,20 @@ def check_guess(str: str):
         stage += 1
         print(
             Fore.RED + "😔 The shadows grow a little darker. Keep trying, brave adventurer!")
-        print(hangman_stages[stage])
     if "".join(answer) == random_word:
         print(Fore.GREEN +
-              f"🏆 Congratulations, intrepid adventurer! 🎉\n🌟 You've unraveled the mystery and guessed the word: {random_word}\n🥳 Your keen wit and determination have led you to victory!")
+              f"\n\n\t🏆 Congratulations, intrepid adventurer! 🎉\n\t🌟 You've unraveled the mystery and guessed the word: {random_word}\n\t🥳 Your keen wit and determination have led you to victory!\n")
         won = True
 
 
-print(Fore.MAGENTA + welcome_message)
+def clear_terminal():
+    if os.name == 'nt':  # For Windows
+        os.system('cls')
+    else:  # For macOS and Linux
+        os.system('clear')
+
+
+print(Fore.BLACK + welcome_message)
 playing_prompt = input(
     Fore.YELLOW + "Press Enter to Let the guessing begin. Q to quit ⏳")
 if playing_prompt.lower() == "q":
@@ -56,11 +66,11 @@ if playing_prompt.lower() == "q":
 else:
     playing = True
 while playing:
-    print(random_word)
-    print(answer)
+    print(Fore.BLUE + f"{hangman_stages[stage]}\n{answer}")
     print(Fore.BLACK + "Guesses: " + guessed)
-    player_guess = input("\n🎯 Speak your guess, and let destiny decide:\n")
-    check_guess(player_guess)
+    player_guess = input(
+        Fore.CYAN + "\n🎯 Speak your guess, and let destiny decide:\n")
+    check_guess(player_guess.strip())
     if won:
         play_again = input(Fore.YELLOW + "\nEnter to play again, Q to quit:\n")
         if play_again.lower() == "q":
