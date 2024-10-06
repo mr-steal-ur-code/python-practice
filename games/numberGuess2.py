@@ -10,16 +10,18 @@ playing = False
 lowest = 1
 highest = 51
 current_guess = 0
+current_list = []
 
 
 def reset_game():
-    global attempts, game_active, playing, lowest, highest
+    global attempts, game_active, playing, lowest, highest, current_list
     clear_terminal()
     lowest = 1
     highest = 51
     attempts = 0
     game_active = True
     playing = False
+    current_list = []
 
 
 def pc_guess():
@@ -29,12 +31,16 @@ def pc_guess():
 
 
 def guess():
-    global current_guess
-    num_list = list(range(lowest, highest))
-    if len(num_list) < 6:
-        current_guess = num_list[round(len(num_list) / 2)]
+    global current_guess, current_list
+    print(f"low: {lowest} -- high: {highest}")
+    if lowest + 1 < highest - 1:
+        num_list = list(range(lowest + 1, highest - 1))
+        current_list = num_list
+    print(f"list: {current_list}")
+    if len(current_list) < 6 and len(current_list) > 2:
+        current_guess = current_list[round(len(current_list) / 2)]
     else:
-        current_guess = random.choice(num_list)
+        current_guess = random.choice(current_list)
 
 
 def clear_terminal():
@@ -56,7 +62,6 @@ while game_active and not playing:
         user_response = (input(Fore.LIGHTBLUE_EX +
                                "\nEnter one of the following:\nL if number is lower\nH if number is higher\nC if number is correct\n"))
         user_res = user_response.strip().lower()
-        print(f"user res: {user_res}")
         if len(user_res) == 1 and user_res in ["l", "h", "c"]:
             attempts += 1
             if user_res == "c":
